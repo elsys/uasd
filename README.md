@@ -1,2 +1,2 @@
 # uasd
-Official repo for the Intorudction to Algorithms and Dat structures
+Official repo for the Introduction to Algorithms and Data structures course
