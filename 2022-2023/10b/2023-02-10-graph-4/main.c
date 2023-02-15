@@ -18,11 +18,44 @@ void connect_nodes(struct graph_node_t* a, struct graph_node_t* b) {
 
 int find_path_dfs(
   struct graph_node_t* start,
-  struct graph_node_t* end
+  struct graph_node_t* end,
+  int curr_weight,
+  int* min_weight
 ) {
   start->visited = 1;
-
+  
   for(int i = 0; i < start->connections->size; i++) {
+  	curr_weight++;
+  	
+    struct graph_node_t* next =
+      vector_get(start->connections, i);
+
+    if(next->visited == 1) continue;
+    if(next == end) {
+    	if(min_weight == -1) {
+      	// first found path
+    	  min_weight = curr_weight;
+    	} else if(curr_weight < min_weight) {
+    	  // new path, better than min_weight
+    	  min_weight = curr_weight;
+    	} else {
+    	  // new path, worse than min_weight :(
+    	}
+    
+    }
+    
+    if(min_weight == -1 || curr_weight < min_weight) {
+      find_path_dfs(next, end, curr_weight, min_weight);
+    }
+    
+	  curr_weight--;
+  }
+  
+  start->visited = 0;
+  
+  return *min_weight;
+
+  /*for(int i = 0; i < start->connections->size; i++) {
     struct graph_node_t* next =
       vector_get(start->connections, i);
 
@@ -34,7 +67,7 @@ int find_path_dfs(
   }
 
   start->visited = 0;
-  return 0;
+  return 0;*/
 }
 /*
 int find_path_bfs(
@@ -82,13 +115,14 @@ int main() {
     {0, 1, 1, 1, 1, 0, 0}
   };
 
-  struct vector_t* nodes;
-  for(int i = 0; i < 4; i++) {
+  struct vector_t* nodes = vector_init();
+  for(int i = 0; i < 7; i++) {
     struct graph_node_t* new_node = malloc(sizeof(struct graph_node_t));
+    new_node->connections = vector_init();
     vector_add(nodes, new_node);
   }
 
-  for(int i = 1; i < 4; i++) {
+  for(int i = 1; i < 7; i++) {
     for(int j = 0; j < i; j++) {
       if(matrix[i][j] == 1)
         connect_nodes(
@@ -98,10 +132,13 @@ int main() {
     }
   }
 
-  find_path_dfs(
-    vector_get(nodes, 4),
-    vector_get(nodes, 0)
+  int min_weight = find_path_dfs(
+    vector_get(nodes, 0),
+    vector_get(nodes, 3),
+    0,
+    -1
   );
+  printf("%d\n", min_weight);
 
   /*find_path_bfs(
     vector_get(nodes, 4),
