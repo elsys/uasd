@@ -17,6 +17,8 @@ Node *createNode(int val)
     n->value = val;
     n->next = NULL;
     n->prev = NULL;
+
+    return n;
 }
 
 void insertBegin(DList *l, int val)
