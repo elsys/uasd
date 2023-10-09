@@ -1,5 +1,5 @@
 struct list_t {
-    list_t* next;
+    struct list_t* next;
     int value;
 };
 

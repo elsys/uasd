@@ -31,15 +31,16 @@ void push_list(list_t* list, int value) {
 
 int list_get_at(
     list_t* vec, 
-    unsigned int index,
+    unsigned int index
     // int* err
 ) {
-    if(vec->count <= index) {
-        // return -1;
-        // *err = 1;
-        return 0;
-    }
+    // if(vec->count <= index) {
+    //     // return -1;
+    //     // *err = 1;
+    //     return 0;
+    // }
 
-    // *err = 0;
-    return vec->arr[index];
+    // // *err = 0;
+    // return vec->arr[index];
+    return -1;
 }

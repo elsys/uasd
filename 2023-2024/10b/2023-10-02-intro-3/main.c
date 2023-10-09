@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <time.h>
 
+#include "list.h"
+
 void swap(int* left, int* right) {
     int tmp = *left;
     *left = *right;
@@ -47,6 +49,15 @@ int* create_array(int count) {
     return arr;
 }
 
+list_t* create_list(int count) {
+    list_t* list = init_list();
+
+    for(int i = 0; i < count; i++)
+        push_list(list, random());
+
+    return list;
+}
+
 void bubble_sort_list_2(list_t* list, int count) {
     
     // for(int i = 0; i < count - 1; i++) {
@@ -56,17 +67,29 @@ void bubble_sort_list_2(list_t* list, int count) {
     //         }
     //     }
     // }
+    list_t* left;
+    list_t* right;
+
+    for(left = list; left->next != NULL; left = left->next) {
+        for(right = left->next; right != NULL; right = right->next) {
+            if(left->value > right->value) {
+                swap(&left->value, &right->value);
+            }
+        }
+    }
 }
 
 int main() {
     srand(time(NULL));
 
-    int* arr = create_array(50000);
+    list_t* list = create_list(5);
 
-    bubble_sort_2(arr, 50000);
+    bubble_sort_list_2(list, 5);
 
-    for(int i = 0; i < 50000; i++)
-        printf("arr[%d] = %d\n", i, arr[i]);
+    for(int i = 0; i < 5; i++) {
+        printf("arr[%d] = %d\n", i, list->value);
+        list = list->next;
+    }
 
     return 0;
 }
