@@ -17,8 +17,6 @@ Node *createNode(int val)
     n->value = val;
     n->next = NULL;
     n->prev = NULL;
-
-    return n;
 }
 
 void insertBegin(DList *l, int val)
@@ -184,14 +182,72 @@ void clear(DList *l)
 
 void insertAfter(DList *l, Node *it, Node *val)
 {
+    if (it == NULL)
+    {
+        printf("Invalid insert position\n");
+        exit(1);
+    }
+
+    val->next = it->next;
+    val->prev = it;
+
+    if (it->next != NULL)
+    {
+        it->next->prev = val;
+    }
+    else
+    {
+        l->tail = val;
+    }
+
+    it->next = val;
 }
 
 void insertBefore(DList *l, Node *it, Node *val)
 {
+    if (it == NULL)
+    {
+        printf("Invalid insert position\n");
+        exit(1);
+    }
+
+    val->next = it;
+    val->prev = it->prev;
+
+    if (it->prev != NULL)
+    {
+        it->prev->next = val;
+    }
+    else
+    {
+        l->head = val;
+    }
+
+    it->prev = val;
 }
 
 Node *removeAt(DList *l, Node *val)
 {
+    if (val->prev != NULL)
+    {
+        val->prev->next = val->next;
+    }
+    else
+    {
+        l->head = val->next;
+    }
+
+    if (val->next != NULL)
+    {
+        val->next->prev = val->prev;
+    }
+    else
+    {
+        l->tail = val->prev;
+    }
+
+    val->next = NULL;
+    val->prev = NULL;
 
     return val;
 }
