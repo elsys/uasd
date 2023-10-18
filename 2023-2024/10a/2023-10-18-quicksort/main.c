@@ -48,8 +48,6 @@ int partition(vector_t *v, int start, int end)
             return i;
         }
 
-        printf("before\n");
-        printVector(v);
         swap(&(v->arr[i]), &(v->arr[j]));
         /*
             Нещо очевидно, което пропуснах е да променям индексите след самия swap за да не остават на едно и също място.
