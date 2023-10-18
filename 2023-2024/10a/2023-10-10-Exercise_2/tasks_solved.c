@@ -88,12 +88,12 @@ int main()
     printDList(l);        // -15 -2 1 2 5 6 10 100
     printDListReverse(l); // 100 10 6 5 2 1 -2 -15
 
-    printf("Mid elem = %d\n", getMid(l)->value); // 5
-    pop(l);
-    Node *mid = getMid(l);
-    printf("Mid elem = %d\n", mid->value); // 2
+    // printf("Mid elem = %d\n", getMid(l)->value); // 5
+    // pop(l);
+    // Node *mid = getMid(l);
+    // printf("Mid elem = %d\n", mid->value); // 2
 
-    printf("Has cycle: %d\n", hasCycle(l)); // Has cycle: 0
-    l->tail->next = mid;
-    printf("Has cycle: %d\n", hasCycle(l)); // Has cycle: 1
+    // printf("Has cycle: %d\n", hasCycle(l)); // Has cycle: 0
+    // l->tail->next = mid;
+    // printf("Has cycle: %d\n", hasCycle(l)); // Has cycle: 1
 }
