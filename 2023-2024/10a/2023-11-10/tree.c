@@ -3,8 +3,8 @@
 typedef struct Node
 {
     int val;
-    Node *left;
-    Node *right;
+    struct Node *left;
+    struct Node *right;
 } Node;
 
 Node *create_node(int val)
