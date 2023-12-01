@@ -5,6 +5,7 @@
 typedef struct Node
 {
     int val;
+    int height;
     struct Node *left;
     struct Node *right;
 } Node;
@@ -15,8 +16,23 @@ Node *create_node(int val)
     node->val = val;
     node->left = NULL;
     node->right = NULL;
+    node->height = 1;
 
     return node;
+}
+
+int max(int a, int b)
+{
+    return a > b ? a : b;
+}
+int height(Node *root)
+{
+    if (root == NULL)
+    {
+        return 0;
+    }
+
+    return root->height;
 }
 
 /*
@@ -37,6 +53,8 @@ Node *insert(Node *root, int val)
     {
         root->right = insert(root->right, val);
     }
+
+    root->height = 1 + max(height(root->left), height(root->right));
 
     return root;
 }
@@ -155,29 +173,9 @@ void printTree2(Node *root)
         return;
     }
 
-    printf("%d ", root->val);
+    printf("Value: %d Height: %d\n", root->val, root->height);
     printTree2(root->left);
     printTree2(root->right);
-}
-
-int max(int a, int b)
-{
-    return a > b ? a : b;
-}
-/*
-    .
-   / \
-  t1  t2
-*/
-
-int height(Node *root)
-{
-    if (root == NULL)
-    {
-        return 0;
-    }
-
-    return 1 + max(height(root->right), height(root->left));
 }
 
 int main()
