@@ -229,6 +229,70 @@ void insert(Node **root, int val)
     treeFixup(root, new_node);
 }
 
+int getBH(Node *root)
+{
+    // if (root == NULL)
+    // {
+    //     return 1;
+    // }
+    int bh = 1;
+    while (root != NULL)
+    {
+        if (root->color == BLACK)
+        {
+            bh++;
+        }
+        root = root->right;
+    }
+
+    return bh;
+
+    // return (root->color == BLACK ? 1 : 0) + getBH(root->left);
+}
+
+int isRBTreeR(Node *root, int bh)
+{
+    if (root == NULL)
+    {
+        return bh == 1;
+    }
+
+    if (root->color == RED && ((root->left != NULL && root->left->color == RED) || (root->right != NULL && root->right->color == RED)))
+    {
+        return 0;
+    }
+
+    if (root->color == BLACK)
+    {
+        bh--;
+    }
+
+    return isRBTreeR(root->left, bh) && isRBTreeR(root->right, bh);
+}
+
+int isRBTree(Node *root)
+{
+    if (root == NULL)
+    {
+        return 1;
+    }
+
+    if (root->color == RED)
+    {
+        return 0;
+    }
+
+    int bh = getBH(root); // O(n), O(logn) ako e RBTree
+
+    return isRBTreeR(root, bh); // n
+
+    // Result: O(n) + O(n) = O(n)
+}
+
+// Дадено е RB Tree, и числа a и b , които са в дървото.
+// Принтирайте елементите на дървото, които са между a и b (като стойности)
+// * каква е сложността на тази функция
+
 int main()
 {
     struct Node *root = NULL;
@@ -248,6 +312,11 @@ int main()
     printf("\n");
 
     // leftRotation(&root, root);
+    if (isRBTree(root))
+    {
+        printf("yes\n");
+    }
+
     // preorder(root);
     // printf("\n");
 
