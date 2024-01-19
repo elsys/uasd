@@ -18,7 +18,6 @@ int partition(vector_t *v, int start, int end)
     int j = end;
     int pivot = getAt(v, end);
 
-    printVector(v);
     while (1)
     {
         while (getAt(v, i) < pivot)
@@ -77,6 +76,58 @@ void quicksort(vector_t *v)
     quicksortR(v, 0, getSize(v) - 1);
 }
 
+int partitionLomuto(vector_t *v, int start, int end)
+{
+    int i = 0;
+    int pp = start;
+    int pivot = getAt(v, end);
+
+    for (int j = start; j < end; j++)
+    {
+        if (getAt(v, j) < pivot)
+        {
+            if (j != pp)
+            {
+                swap(&v->arr[j], &v->arr[pp]);
+            }
+            pp++;
+        }
+    }
+
+    swap(&v->arr[end], &v->arr[pp]);
+
+    return pp;
+}
+
+void quicksortRLomuto(vector_t *v, int start, int end)
+{
+    if (start >= end)
+    {
+        return;
+    }
+
+    int mid = partitionLomuto(v, start, end);
+    quicksortR(v, start, mid - 1);
+    quicksortR(v, mid + 1, end);
+}
+
+void quicksortLomuto(vector_t *v)
+{
+    quicksortRLomuto(v, 0, getSize(v) - 1);
+}
+
+void allSums(vector_t *v, int index, int sum)
+{
+    if (index == getSize(v))
+    {
+        printf("%d ", sum);
+        return;
+    }
+
+    allSums(v, index + 1, sum + getAt(v, index));
+    allSums(v, index + 1, sum);
+}
+
 int main()
 {
     vector_t *v = init_vector();
@@ -86,16 +137,24 @@ int main()
     push_back(v, 5);
     push_back(v, 3);
     push_back(v, 2);
-    push_back(v, 12);
-    push_back(v, -10);
-    push_back(v, 3);
-    push_back(v, 7);
-    push_back(v, 4);
-    push_back(v, -5);
-    push_back(v, 3);
 
-    quicksort(v);
+    allSums(v, 0, 0);
+
+    // int mid = partitionLomuto(v, 0, getSize(v) - 1);
+    // printf("mid = %d\n", mid);
+    // printVector(v);
+
+    // mid = partitionLomuto(v, mid + 1, getSize(v) - 1);
+    // printf("mid = %d\n", mid);
+    // printVector(v);
+
+    // mid = partitionLomuto(v, mid + 1, getSize(v) - 1);
+    // printf("mid = %d\n", mid);
+    quicksortLomuto(v);
     printVector(v);
+
+    // quicksortLomuto(v);
+    // printVector(v);
 
     return 0;
 }

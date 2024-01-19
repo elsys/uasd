@@ -3,6 +3,15 @@
 // #include "../utils/vector.h"
 #include "queue.h"
 
+typedef struct Node
+{
+    int val;
+    int height;
+    struct Node *parent;
+    struct Node *left;
+    struct Node *right;
+} Node;
+
 Node *create_tree_node(int val)
 {
     Node *node = (Node *)malloc(sizeof(Node));

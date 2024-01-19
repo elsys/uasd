@@ -1,6 +1,5 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "../utils/vector.h"
 
 typedef struct Node
 {
@@ -101,54 +100,7 @@ Node *deleteNode(Node *root, int val)
     return root;
 }
 
-void fillVector(vector_t *v, Node *tree)
-{
-    if (tree == NULL)
-    {
-        return;
-    }
-
-    fillVector(v, tree->left);
-    push_back(v, tree->val);
-    fillVector(v, tree->right);
-}
-
-Node *buildTreeRec(vector_t *v, int start, int end)
-{
-    if (start > end)
-    {
-        return NULL;
-    }
-
-    int mid = (start + end) / 2;
-    Node *node = create_node(v->arr[mid]);
-    node->left = buildTreeRec(v, start, mid - 1);
-    node->right = buildTreeRec(v, mid + 1, end);
-
-    return node;
-}
-
-Node *buildTree(vector_t *v)
-{
-    Node *root = NULL;
-    root = buildTreeRec(v, 0, v->size - 1);
-
-    return root;
-}
-
-/*
-Balance factor = Height(T1) - Height(T2)
-Bf E [-1, 0, 1]
-
-    .
-   / \
-  .   .
-  /\
- .  .
-  \.
-*/
-
-void printTree2(Node *root)
+void preorder(Node *root)
 {
     if (root == NULL)
     {
@@ -156,8 +108,8 @@ void printTree2(Node *root)
     }
 
     printf("%d ", root->val);
-    printTree2(root->left);
-    printTree2(root->right);
+    preorder(root->left);
+    preorder(root->right);
 }
 
 int max(int a, int b)
@@ -180,6 +132,74 @@ int height(Node *root)
     return 1 + max(height(root->right), height(root->left));
 }
 
+// Node *flatten(Node *root)
+// {
+//     printf("%p ", root);
+//     if (root->left == NULL)
+//     {
+//         if (root->right == NULL)
+//         {
+//             return root;
+//         }
+//         return flatten(root->right);
+//     }
+//     if (root->right == NULL)
+//     {
+//         root->right = root->left;
+//         return flatten(root->right);
+//     }
+
+//     // printf("%d ", root->val);
+//     Node *end = flatten(root->left);
+//     Node *rightEnd = flatten(root->right);
+
+//     end->right = root->right;
+//     root->right = root->left;
+//     root->left = NULL;
+
+//     return rightEnd;
+// }
+
+Node *flatten(Node *root)
+{
+    if (root == NULL)
+    {
+        return NULL;
+    }
+
+    if (root->left == NULL && root->right == NULL)
+    {
+        return root;
+    }
+    if (root->left == NULL)
+    {
+        return flatten(root->right);
+    }
+    if (root->right == NULL)
+    {
+        root->right = root->left;
+        return flatten(root->right);
+    }
+
+    Node *leftEnd = flatten(root->left);
+    Node *rightEnd = flatten(root->right);
+
+    leftEnd->right = root->right;
+    root->right = root->left;
+    root->left = NULL;
+
+    return rightEnd;
+    /*
+           0
+          /  \
+         1    2
+          \    \
+           3    4
+            \
+             5
+    */
+}
+
 int main()
 {
     Node *tree = NULL;
@@ -200,32 +220,29 @@ int main()
                 0
     */
 
-    insert(tree, -20);
-    insert(tree, -12);
-    insert(tree, -5);
-    insert(tree, 0);
-    insert(tree, 6);
     insert(tree, 10);
+    insert(tree, 1);
+    insert(tree, 6);
     insert(tree, 12);
-    insert(tree, 15);
+    insert(tree, 2);
+    insert(tree, -12);
     insert(tree, 30);
     insert(tree, 123);
+    insert(tree, 15);
+    insert(tree, 0);
+    insert(tree, 100);
+    insert(tree, 99);
+    insert(tree, -45);
 
-    printTree(tree);
-    deleteNode(tree, 0);
-    printf("\n");
-    printTree(tree);
+    preorder(tree);
+    printf("\n ");
 
-    vector_t *v = init_vector();       // 1
-    fillVector(v, tree);               // n
-    Node *balancedTree = buildTree(v); // n   Total: O(n)
-    printf("\n");
-    printTree(balancedTree);
-
-    printf("\n");
-    printTree2(tree);
-    printf("\n");
-    printTree2(balancedTree);
-
-    printf("Unbalanced height: %d\nBalanced height: %d", height(tree), height(balancedTree));
+    flatten(tree);
+    Node *it = tree;
+    while (it != NULL)
+    {
+        printf("%d ", it->val);
+        it = it->right;
+    }
+    printf("\n ");
 }

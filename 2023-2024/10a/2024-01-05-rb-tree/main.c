@@ -118,56 +118,12 @@ void rightRotation(Node **root, Node *y)
     }
 }
 
-void insert(Node **root, int val)
-{
-    Node *new_node = create_tree_node(val);
-    Node *current = *root;
-
-    if (current == NULL)
-    {
-        (*root) = new_node;
-        return;
-    }
-
-    while (1)
-    {
-        if (current->val > val)
-        {
-            if (current->left == NULL)
-            {
-                break;
-            }
-            current = current->left;
-        }
-        else
-        {
-            if (current->right == NULL)
-            {
-                break;
-            }
-            current = current->right;
-        }
-    }
-
-    if (current->val > val)
-    {
-        current->left = new_node;
-    }
-    else
-    {
-        current->right = new_node;
-    }
-
-    new_node->parent = current;
-
-    treeFixup(&root, new_node);
-}
-
 void treeFixup(Node **root, Node *x)
 {
     Node *gp = NULL;
     Node *uncle = NULL;
 
+    // printf("Test");
     while (x != (*root) && x->parent->color == RED)
     {
         gp = x->parent->parent;
@@ -227,6 +183,52 @@ void treeFixup(Node **root, Node *x)
     (*root)->color = BLACK;
 }
 
+void insert(Node **root, int val)
+{
+    Node *new_node = create_tree_node(val);
+    Node *current = *root;
+
+    if (current == NULL)
+    {
+        new_node->color = BLACK;
+        *root = new_node;
+        return;
+    }
+
+    while (1)
+    {
+        if (current->val > val)
+        {
+            if (current->left == NULL)
+            {
+                break;
+            }
+            current = current->left;
+        }
+        else
+        {
+            if (current->right == NULL)
+            {
+                break;
+            }
+            current = current->right;
+        }
+    }
+
+    if (current->val > val)
+    {
+        current->left = new_node;
+    }
+    else
+    {
+        current->right = new_node;
+    }
+
+    new_node->parent = current;
+
+    treeFixup(root, new_node);
+}
+
 int main()
 {
     struct Node *root = NULL;
@@ -234,19 +236,24 @@ int main()
     insert(&root, 7);
     insert(&root, 3);
     insert(&root, 18);
+    insert(&root, 18);
+    insert(&root, 28);
+    insert(&root, 32);
+    insert(&root, 52);
+    insert(&root, 41);
 
     inorderTraversal(root);
-    printf("\n");
-    preorder(root);
-    printf("\n");
+    // printf("\n");
+    // preorder(root);
+    // printf("\n");
 
-    leftRotation(&root, root);
-    preorder(root);
-    printf("\n");
+    // leftRotation(&root, root);
+    // preorder(root);
+    // printf("\n");
 
-    rightRotation(&root, root);
-    preorder(root);
-    printf("\n");
+    // rightRotation(&root, root);
+    // preorder(root);
+    // printf("\n");
 
     return 0;
 }
