@@ -33,7 +33,8 @@ void inorderTraversal(Node *root)
     if (root != NULL)
     {
         inorderTraversal(root->left);
-        printf("%d ", root->val);
+        printf("%d(%c) ", root->val, (root->color == BLACK ? 'B' : 'R'));
+
         inorderTraversal(root->right);
     }
 }
@@ -42,7 +43,7 @@ void preorder(Node *root)
 {
     if (root != NULL)
     {
-        printf("%d ", root->val);
+        printf("%d(%c) ", root->val, (root->color == BLACK ? 'B' : 'R'));
         preorder(root->left);
         preorder(root->right);
     }
@@ -80,9 +81,9 @@ void leftRotation(Node **root, Node *x)
 }
 
 /*
-     y                               x
+     x                               y
     / \     Right Rotation          /  \
-   x   T3   - - - - - - - >        T1   y
+   y   T3   - - - - - - - >        T1   x
   / \       < - - - - - - -            / \
  T1  T2                               T2
 */
@@ -123,7 +124,6 @@ void treeFixup(Node **root, Node *x)
     Node *gp = NULL;
     Node *uncle = NULL;
 
-    // printf("Test");
     while (x != (*root) && x->parent->color == RED)
     {
         gp = x->parent->parent;
@@ -132,7 +132,7 @@ void treeFixup(Node **root, Node *x)
         {
             uncle = gp->right;
 
-            if (uncle->color == RED)
+            if (uncle != NULL && uncle->color == RED)
             {
                 x->parent->color = BLACK;
                 uncle->color = BLACK;
@@ -157,7 +157,7 @@ void treeFixup(Node **root, Node *x)
         {
             uncle = gp->left;
 
-            if (uncle->color == RED)
+            if (uncle != NULL && uncle->color == RED)
             {
                 x->parent->color = BLACK;
                 uncle->color = BLACK;
@@ -243,9 +243,9 @@ int main()
     insert(&root, 41);
 
     inorderTraversal(root);
-    // printf("\n");
-    // preorder(root);
-    // printf("\n");
+    printf("\n");
+    preorder(root);
+    printf("\n");
 
     // leftRotation(&root, root);
     // preorder(root);
