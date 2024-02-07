@@ -26,7 +26,7 @@ EntryNode *init_entry(char *key, int val)
 HashMap *init_hash_map()
 {
     HashMap *map = (HashMap *)malloc(sizeof(HashMap));
-    map->array = (EntryNode **)malloc(HASH_SIZE * sizeof(EntryNode *));
+    map->array = (EntryNode **)calloc(HASH_SIZE, sizeof(EntryNode *));
 
     return map;
 }
