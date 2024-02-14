@@ -26,7 +26,7 @@ Graph *init_graph(int numVertices)
 {
     Graph *graph = (Graph *)malloc(sizeof(Graph));
     graph->numVertices = numVertices;
-    graph->adjList = (Node **)malloc(numVertices * sizeof(Node *));
+    graph->adjList = (Node **)calloc(numVertices, sizeof(Node *));
 
     return graph;
 }
