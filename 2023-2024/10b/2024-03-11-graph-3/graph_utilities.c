@@ -66,3 +66,25 @@
 
 //     return tree_root;
 // }
+
+
+struct djikstra_info_t {
+    graph_node_t* node;
+    int visited;
+    int weight;
+    graph_node_t* prev;
+};
+
+void find_dijkstra_route(graph_t* graph, char* start, char* end) {
+    list_t* info = NULL;
+
+    // put all nodes in priority queue
+    // set all weights to INF (-1)
+    // find start, set weight to 0
+    
+    // while queue not empty
+        // take node with least weight
+        // find new weights for neighbors
+        // weight(neighbor) = weight(node) + weight(edge)
+        // if new weight < old weight then update table
+}

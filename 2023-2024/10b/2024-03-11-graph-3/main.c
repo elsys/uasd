@@ -31,7 +31,7 @@ void demo_graph() {
     connect_nodes(
         find_node_by_name(my_graph, "test1"),
         find_node_by_name(my_graph, "test2"),
-        1
+        5
     );
     connect_nodes(
         find_node_by_name(my_graph, "test1"),
@@ -41,7 +41,7 @@ void demo_graph() {
     connect_nodes(
         find_node_by_name(my_graph, "test2"),
         find_node_by_name(my_graph, "test4"),
-        1
+        2
     );
     connect_nodes(
         find_node_by_name(my_graph, "test2"),
@@ -51,7 +51,7 @@ void demo_graph() {
     connect_nodes(
         find_node_by_name(my_graph, "test3"),
         find_node_by_name(my_graph, "test5"),
-        1
+        3
     );
 
     print_graph(my_graph);
