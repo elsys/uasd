@@ -105,73 +105,6 @@ void BFS(Graph *G)
     }
 }
 
-void DFS(Graph *G)
-{
-    DList *stack = init_dlist();
-    insertBegin(stack, 0);
-
-    int *visited = (int *)calloc(G->numVertices, G->numVertices * sizeof(int));
-    int *parents = (int *)calloc(G->numVertices, G->numVertices * sizeof(int));
-    int *dist = (int *)calloc(G->numVertices, G->numVertices * sizeof(int));
-
-    visited[0] = 1;
-
-    while (stack->head != NULL)
-    {
-        int current = popFront(stack);
-
-        if (!visited[current])
-        {
-
-            visited[current] = 1;
-            printf("%d ", current);
-        }
-
-        VertexNode *currentNode = G->adjList[current];
-
-        while (currentNode != NULL)
-        {
-            // printf("Neighbor of %d is %d\n", current, currentNode->val);
-            if (!visited[currentNode->val])
-            {
-                insertBegin(stack, currentNode->val);
-                parents[currentNode->val] = current;
-                dist[currentNode->val] = dist[current] + 1;
-            }
-            currentNode = currentNode->next;
-        }
-    }
-
-    for (int i = 0; i < G->numVertices; i++)
-    {
-        printf("Parent of %d: %d at dist %d\n", i, parents[i], dist[i]);
-    }
-}
-
-void DFS_R(Graph *G, int start, int *visited)
-{
-    VertexNode *currentNode = G->adjList[start];
-    printf("%d ", start);
-
-    while (currentNode != NULL)
-    {
-        if (!visited[currentNode->val])
-        {
-            visited[currentNode->val] = 1;
-            DFS_R(G, currentNode->val, visited);
-        }
-        currentNode = currentNode->next;
-    }
-}
-
-void DFS2(Graph *G)
-{
-    int *visited = (int *)calloc(G->numVertices, G->numVertices * sizeof(int));
-    visited[0] = 1;
-    DFS_R(G, 0, visited);
-    free(visited);
-}
-
 int main()
 {
     Graph *graph = init_graph(VERTICES_N);
@@ -186,7 +119,7 @@ int main()
     addEdge(graph, 8, 6);
     addEdge(graph, 8, 9);
 
-    DFS(graph);
+    BFS(graph);
 
     return 0;
 }
