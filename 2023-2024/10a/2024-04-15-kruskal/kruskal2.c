@@ -19,6 +19,7 @@ int compare(const void *a, const void *b)
 typedef struct Subset
 {
     int parent;
+    int rank;
 } Subset;
 
 int Find(Subset *subsets, int i)
@@ -34,7 +35,22 @@ int Find(Subset *subsets, int i)
 // needs further optimization to be lgn
 void Union(Subset *subsets, int src, int dest)
 {
-    subsets[src].parent = dest;
+    int root1 = Find(subsets, src);
+    int root2 = Find(subsets, dest);
+
+    if (subsets[root1].rank < subsets[root2].rank)
+    {
+        subsets[root1].parent = root2;
+    }
+    else if (subsets[root1].rank > subsets[root2].rank)
+    {
+        subsets[root2].parent = root1;
+    }
+    else
+    {
+        subsets[root2].parent = root1;
+        subsets[root1].rank++;
+    }
 }
 
 void Kruskal(Edge edges[], int V, int E)

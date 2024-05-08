@@ -3,11 +3,12 @@
 #include <stdlib.h>
 #include "graph.h"
 
-VertexNode *init_node(int val)
+VertexNode *init_node(int val, int weigth)
 {
     VertexNode *node = (VertexNode *)malloc(sizeof(VertexNode));
     node->val = val;
     node->next = NULL;
+    node->weight = weigth;
 
     return node;
 }
@@ -21,7 +22,7 @@ Graph *init_graph(int numVertices)
     return graph;
 }
 
-void addEdgeDirectional(Graph *graph, int from, int to)
+void addEdgeDirectional(Graph *graph, int from, int to, int weight)
 {
     if (from < 0 || from >= graph->numVertices || to < 0 || to >= graph->numVertices)
     {
@@ -29,16 +30,16 @@ void addEdgeDirectional(Graph *graph, int from, int to)
         return;
     }
 
-    VertexNode *newNode = init_node(to);
+    VertexNode *newNode = init_node(to, weight);
 
     newNode->next = graph->adjList[from];
     graph->adjList[from] = newNode;
 }
 
-void addEdge(Graph *graph, int from, int to)
+void addEdge(Graph *graph, int from, int to, int weight)
 {
-    addEdgeDirectional(graph, from, to);
-    addEdgeDirectional(graph, to, from);
+    addEdgeDirectional(graph, from, to, weight);
+    addEdgeDirectional(graph, to, from, weight);
 }
 
 void printGraph(Graph *graph)
