@@ -16,6 +16,21 @@ typedef struct PQueue
     int size;
 } PQueue;
 
+PQueue *init_pq()
+{
+    PQueue *pq = (PQueue *)malloc(sizeof(PQueue));
+    pq->size = 0;
+    return pq;
+}
+
+PQNode *createPQNode(void *data, int key)
+{
+    PQNode *newNode = (PQNode *)malloc(sizeof(PQNode));
+    newNode->data = data;
+    newNode->key = key;
+    return newNode;
+}
+
 void swap(PQNode *a, PQNode *b)
 {
     PQNode temp = *a;
