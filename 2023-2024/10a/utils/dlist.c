@@ -11,7 +11,7 @@ DList *init_dlist()
     return l;
 }
 
-Node *createNode(int val)
+Node *createNode(void *val)
 {
     Node *n = (Node *)malloc(sizeof(Node));
     n->value = val;
@@ -19,7 +19,7 @@ Node *createNode(int val)
     n->prev = NULL;
 }
 
-void insertBegin(DList *l, int val)
+void insertBegin(DList *l, void *val)
 {
     Node *n = createNode(val);
 
@@ -36,7 +36,7 @@ void insertBegin(DList *l, int val)
     l->head = n;
 }
 
-void insertEnd(DList *l, int val)
+void insertEnd(DList *l, void *val)
 {
     Node *n = createNode(val);
 
@@ -74,7 +74,7 @@ Node *getAt(DList *l, int index)
     exit(1);
 }
 
-int popFront(DList *l)
+void *popFront(DList *l)
 {
     if (l->head == NULL)
     {
@@ -82,7 +82,7 @@ int popFront(DList *l)
         exit(1);
     }
 
-    int val = l->head->value;
+    void *val = l->head->value;
     Node *head = l->head;
 
     if (l->head->next == NULL)
@@ -101,7 +101,7 @@ int popFront(DList *l)
     return val;
 }
 
-int pop(DList *l)
+void *pop(DList *l)
 {
     if (l->tail == NULL)
     {
@@ -109,7 +109,7 @@ int pop(DList *l)
         exit(1);
     }
 
-    int val = l->tail->value;
+    void *val = l->tail->value;
     Node *tail = l->tail;
 
     if (l->tail->prev == NULL)

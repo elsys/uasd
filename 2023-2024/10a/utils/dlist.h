@@ -3,7 +3,7 @@
 
 typedef struct Node
 {
-    int value;
+    void *value;
     struct Node *next;
     struct Node *prev;
 } Node;
@@ -14,20 +14,20 @@ typedef struct DList
 } DList;
 
 DList *init_dlist();
-void insertBegin(DList *, int);
-void insertEnd(DList *, int);
+void insertBegin(DList *, void *);
+void insertEnd(DList *, void *);
 
-Node *getAt(DList *, int);
+Node *getAt(DList *, void *);
 void clear(DList *);
-int pop(DList *);
+void *pop(DList *);
 void printDList(DList *);
 void printDListReverse(DList *);
-int popFront(DList *);
+void *popFront(DList *);
 
 void insertAt(DList *, Node *, Node *);
 Node *removeAt(DList *, Node *);
 
-Node *createNode(int val);
+Node *createNode(void *val);
 void insertBefore(DList *l, Node *it, Node *val);
 void insertAfter(DList *l, Node *it, Node *val);
 Node *removeAt(DList *l, Node *val);
