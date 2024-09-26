@@ -1,15 +1,19 @@
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdint.h>
 #include "map.h"
 
-void huffman_encode(char* str, map_t* letters) {
-    char* result = malloc(strlen(str));
+uint8_t* huffman_encode(uint8_t* data, size_t len, map_t* letters) {
+    uint8_t* result = malloc(len);
 
-    int byte_count = 0;
-    int bit_count = 0;
-    for(int i = 0; i < strlen(str); i++) {
-        char curr_value = str[i];
-        char code = map_get(letters, curr_value);
-        short code_length = 3;
+    // size_t byte_count = 0;
+    unsigned int byte_count = 0;
+    uint8_t bit_count = 0;
+    for(size_t i = 0; i < len; i++) {
+        uint8_t curr_value = data[i];
+        uint8_t code = (uint8_t)map_get(letters, &curr_value);
+        unsigned short code_length = 3;
 
         // result[byte_count] <<= 3;
         // char code_left = code >> 2;
@@ -19,8 +23,8 @@ void huffman_encode(char* str, map_t* letters) {
 
         // 00000101 << 5 = 10100000
         // 00000101 << 2 = 00010100
-        short remaining_bits = 8 - bit_count;
-        char code_left = code;
+        unsigned short remaining_bits = 8 - bit_count;
+        uint8_t code_left = code;
         if(remaining_bits >= code_length)
             code_left <<= (remaining_bits - code_length); 
         else
@@ -38,13 +42,15 @@ void huffman_encode(char* str, map_t* letters) {
             byte_count++;
             code_length = code_length - remaining_bits;
 
-            char code_right = code << (8 - code_length);
+            uint8_t code_right = code << (8 - code_length);
             result[byte_count] |= code_right;
             bit_count = code_length;
         }
     }
 
     result = realloc(result, byte_count);
+
+    return result;
 }
 
 int main() {
@@ -57,7 +63,8 @@ int main() {
 
     char* str = "ABCDAAB";
 
-    huffman_encode(str, letters);
+    uint8_t* encoded = huffman_encode(str, strlen(str), letters);
+    
 
     return 0;
 }
