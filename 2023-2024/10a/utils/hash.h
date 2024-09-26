@@ -20,5 +20,7 @@ HashMap *init_hash_map();
 int hash(char *key);
 void set(HashMap *hash_map, char *key, void *val);
 void *get(HashMap *hash_map, char *key);
+void setInt(HashMap *hash_map, char *key, int val);
+int getInt(HashMap *hash_map, char *key);
 
 #endif
