@@ -26,5 +26,6 @@ void Union(Subset *subsets, int src, int dest)
     else
     {
         subsets[root2].parent = root1;
+        subsets[root1].rank++;
     }
 }

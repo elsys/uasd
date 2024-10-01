@@ -74,7 +74,7 @@ PQNode *init_pq_node(void *data, float key)
 
 void pqInsert(PQueue *pq, void *data, float key)
 {
-    PQNode *newNode = createPQNode(data, key);
+    PQNode *newNode = init_pq_node(data, key);
     pq->arr[pq->size] = newNode;
     int current = pq->size++;
     int parent = (current - 1) / 2;

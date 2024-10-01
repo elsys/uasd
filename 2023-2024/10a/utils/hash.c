@@ -29,7 +29,8 @@ int hash(char *key)
         sum += key[i];
     }
 
-    return sum % HASH_SIZE;
+    int mod = sum % HASH_SIZE;
+    return mod < 0 ? HASH_SIZE + mod : mod;
 }
 
 void set(HashMap *hash_map, char *key, void *val)
@@ -44,10 +45,8 @@ void set(HashMap *hash_map, char *key, void *val)
     else
     {
         EntryNode *it = hash_map->array[index];
-
         while (it != NULL)
         {
-            if (strcmp(it->key, key) == 0)
             {
                 it->val = val;
                 // free entry;
@@ -86,4 +85,22 @@ void *get(HashMap *hash_map, char *key)
     }
 
     return NULL;
+}
+
+void setInt(HashMap *hash_map, char *key, int val)
+{
+    int *val_ptr = (int *)malloc(sizeof(int));
+    *val_ptr = val;
+    set(hash_map, key, val_ptr);
+}
+
+int getInt(HashMap *hash_map, char *key)
+{
+    int *val_ptr = (int *)get(hash_map, key);
+    if (val_ptr == NULL)
+    {
+        return -1;
+    }
+
+    return *val_ptr;
 }
