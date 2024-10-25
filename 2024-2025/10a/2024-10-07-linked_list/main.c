@@ -3,9 +3,9 @@
 
 int main () {
     LList* l = init_llist();
-    insertBegin(l, 1);
-    insertBegin(l, 2);
-    insertBegin(l, 3);
+    insertEnd(l, 1);
+    insertEnd(l, 2);
+    insertEnd(l, 3);
 
     printList(l);
 
