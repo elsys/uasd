@@ -1,21 +1,23 @@
 #ifndef TREESET_T
 #define TREESET_T
 
-struct Node {
-    struct Node* left;
-    struct Node* right;
+struct TreeNode {
+    struct TreeNode* left;
+    struct TreeNode* right;
     int val;
 };
 
-typedef struct Node Node;
+typedef struct TreeNode TreeNode;
 
-Node* initTreeSet(int val);
+TreeNode* initTreeTreeNode(int val);
 
-int treeSetContains(Node* set, int val);
+int treeSetContains(TreeNode* set, int val);
 
-Node* treeSetAdd(Node* set, int val);
-void treeSetAdd2(Node** set, int val);
+TreeNode* treeSetAdd(TreeNode* set, int val);
+void treeSetAdd2(TreeNode** set, int val);
 
-void printTreeSet(Node* set);
+unsigned treeSetHeight(TreeNode* set);
+
+void printTreeSet(TreeNode* set);
 
 #endif

@@ -3,15 +3,15 @@
 #include "treeSet.h"
 
 
-Node* initTreeSet(int val) {
-    Node* newNode = (Node*)malloc(sizeof(Node));
+TreeNode* initTreeNode(int val) {
+    TreeNode* newNode = (TreeNode*)malloc(sizeof(TreeNode));
     newNode->left = NULL;
     newNode->right = NULL;
     newNode->val = val;
     return newNode;
 }
 
-int treeSetContains(Node* node, int val) {
+int treeSetContains(TreeNode* node, int val) {
     if (!node) {
         return 0;
     }
@@ -24,11 +24,33 @@ int treeSetContains(Node* node, int val) {
     }
 }
 
-// Така както го бях написал в час
 
-Node* treeSetAdd(Node* node, int val) {
+// void treeSetAdd(TreeNode* node, int val) {
+//     if(!node) {
+//         node = initTreeNode(val);
+//         return;
+//     }
+//     if(node->val == val) {
+//         return;
+//     } else if(node->val > val) {
+//         treeSetAdd(node->left, val);
+//     } else {
+//         treeSetAdd(node->right, val);
+//     }
+// }
+
+
+
+
+
+
+
+
+
+
+TreeNode* treeSetAdd(TreeNode* node, int val) {
     if(!node) {
-        return initTreeSet(val);
+        return initTreeNode(val);
     }
     if(node->val == val) {
         return node;
@@ -43,9 +65,9 @@ Node* treeSetAdd(Node* node, int val) {
 // ИЛИ
 // (тва е доста объркващо)
 // Използва двоен указател понеже иначе взимаме само копие на указателя и като го променяме не правим нищо
-void treeSetAdd2(Node** node, int val) { 
+void treeSetAdd2(TreeNode** node, int val) { 
     if (!(*node)) {
-        *node = initTreeSet(val);
+        *node = initTreeNode(val);
         return;
     }
     if ((*node)->val == val) {
@@ -57,7 +79,40 @@ void treeSetAdd2(Node** node, int val) {
     }
 }
 
-void printTreeSet(Node* node) {
+unsigned treeSetHeight(TreeNode* node) {
+    if(!node) {
+        return 0;
+    }
+
+    int leftHeight = treeSetHeight(node->left);
+    int rightHeight = treeSetHeight(node->right);
+
+    int maxHeight = leftHeight > rightHeight ? leftHeight : rightHeight;
+    return maxHeight + 1;
+}   
+
+int treeSetMin(TreeNode* node) {
+    if(!node->left) {
+        return node->val;
+    }
+    return treeSetMin(node->left);
+}
+
+int treeSetMinIter(TreeNode* node) {
+    while(node->left) {
+        node = node->left;
+    }
+    return node;
+}
+
+int treeSetMaxIter(TreeNode* node) {
+    while(node->right) {
+        node = node->right;
+    }
+    return node;
+}
+
+void printTreeSet(TreeNode* node) {
     if(!node) {
         return;
     }
