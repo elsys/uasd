@@ -79,9 +79,9 @@ void treeFixup(Node **root, Node *z) {
             Node *uncle = gp->right;
 
             if (uncle != NULL && uncle->color == RED) {
-                gp->color = BLACK;
-                uncle->color = RED;
-                z->parent->color = RED;
+                gp->color = RED;
+                uncle->color = BLACK;
+                z->parent->color = BLACK;
 
                 z = gp;
             } else { 
@@ -98,9 +98,9 @@ void treeFixup(Node **root, Node *z) {
             Node *uncle = gp->left;
 
             if (uncle != NULL && uncle->color == RED) {
-                gp->color = BLACK;
-                uncle->color = RED;
-                z->parent->color = RED;
+                gp->color = RED;
+                uncle->color = BLACK;
+                z->parent->color = BLACK;
 
                 z = gp;
             } else { 
