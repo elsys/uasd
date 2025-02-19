@@ -1,11 +1,9 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
-#include "tree.h"
-
 typedef struct QNode
 {
-    Node* val;
+    int val;
     struct QNode *next;
 } QNode;
 
@@ -16,10 +14,10 @@ typedef struct Queue
 } Queue;
 
 
-QNode *create_qnode(Node* val);
+QNode *create_qnode(int val);
 Queue *init_queue();
-void enqueue(Queue *queue, Node* val);
-Node* dequeue(Queue *queue);
+void enqueue(Queue *queue, int val);
+int dequeue(Queue *queue);
 void clear_queue(Queue *queue);
 void print_queue(Queue *queue);
 
