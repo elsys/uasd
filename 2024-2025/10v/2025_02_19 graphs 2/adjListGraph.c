@@ -91,30 +91,6 @@ int getOutDegree(Graph* graph, int node) {
     return count;
 }
 
-
-int countEdges(Graph* graph) {
-    int count = 0;
-    for(int i = 0; i < graph->nodeCount; i++) {
-        Node* curr = graph->adjList[i];
-        while(curr) {
-            
-            
-        }
-    }
-}
-//int countEdges_adjMatrix()
-
-//void printIsolatedVertices_adjList()
-//void printIsolatedVertices_adjMatrix()
-
-//int findMaxDegreeVertex()
-//int findMinDegreeVertex()
-
-//Graph* reverseDirectional()
-
-
-//? int getNeighbors()
-
 int main() {
     Graph* graph = initGraph(6);
     addEdgeDirectional(graph, 0, 5);
