@@ -3,9 +3,10 @@
 #include "graph.h"
 
 
-Vertex* init_vertex(int val) {
+Vertex* init_vertex(int val, int weight) {
     Vertex* vertex = (Vertex*)malloc(sizeof(Vertex));
     vertex->val = val;
+    vertex->weight = weight;
     vertex->next = NULL;
 
     return vertex;
@@ -19,15 +20,15 @@ Graph* init_graph(int numVertices) {
     return graph;
 }
 
-void addEdgeDirectional(Graph*graph, int from, int to) {
-    Vertex* new_vertex = init_vertex(to);
+void addEdgeDirectional(Graph*graph, int from, int to, int weight) {
+    Vertex* new_vertex = init_vertex(to, weight);
     new_vertex->next = graph->adjList[from];
     graph->adjList[from] = new_vertex;
 }
 
-void addEdge(Graph* graph, int from, int to) {
-    addEdgeDirectional(graph, from, to);
-    addEdgeDirectional(graph, to, from);
+void addEdge(Graph* graph, int from, int to, int weight) {
+    addEdgeDirectional(graph, from, to, weight);
+    addEdgeDirectional(graph, to, from, weight);
 }
 
 void printGraph(Graph *graph) {

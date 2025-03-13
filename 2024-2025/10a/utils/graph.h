@@ -17,12 +17,12 @@ typedef struct Graph {
     Vertex **adjList;
 } Graph;
 
-Vertex* init_vertex(int val);
+Vertex* init_vertex(int val, int weight);
 
 Graph* init_graph(int numVertices);
 
-void addEdgeDirectional(Graph*graph, int from, int to);
-void addEdge(Graph* graph, int from, int to);
+void addEdgeDirectional(Graph*graph, int from, int to, int weight);
+void addEdge(Graph* graph, int from, int to, int weight);
 
 void printGraph(Graph *graph);
 
