@@ -4,7 +4,7 @@
 
 int find_min(int* v, int size, int* finished) {
     int min = INT_MAX;
-    int minIndex = 0;
+    int minIndex = -1;
     for (int i = 0; i < size; i++) {
         if (!finished[i] && min > v[i]) {
             min = v[i];
@@ -26,8 +26,22 @@ void dijkstra(Graph* g, int start) {
     }
     dist[start] = 0;
 
+    // with array
+    // O(V.V + E) = O(V^2)
+
+    // with priority queue
+    // O(V + E).logV
+    // Remark: If |E| is at least V^2/logV then no optimization. 
+
+    // with Fibonacci heap
+    // O(V.logV + E)
     for (int i = 0; i < g->numVertices; i++) {
         int min = find_min(dist, g->numVertices, finished);
+        // extract min logV
+        if(min == -1) {
+            return;
+        }
+
         finished[min] = 1;
 
         Vertex *it = g->adjList[min];
@@ -36,8 +50,8 @@ void dijkstra(Graph* g, int start) {
             int to = it->val;
             int w = it->weight;
 
-            if (dist[to] > dist[from] + w) {
-                dist[to] = dist[from] + w;
+            if (dist[to] > w) {
+                updateKey(dist, to, w); // logV
                 parents[to] = from;
             }
 
