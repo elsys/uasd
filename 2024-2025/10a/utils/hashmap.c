@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 #include "hashmap.h"
 #define HASHMAP_SIZE 16
 
@@ -13,7 +14,7 @@ EntryNode* init_entry(char* key, int val) {
 
 HashMap* init_hashmap() {
     HashMap* hashmap = (HashMap*)malloc(sizeof(HashMap));
-    hashmap->entries = (EntryNode**)calloc(sizeof(EntryNode*), HASHMAP_SIZE);
+    hashmap->entries = (EntryNode**)calloc(HASHMAP_SIZE, sizeof(EntryNode*));
 
     return hashmap;
 }

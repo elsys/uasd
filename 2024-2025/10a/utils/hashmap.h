@@ -18,4 +18,4 @@ HashMap* init_hashmap();
 int hash(char* key);
 int get(HashMap* hashmap, char* key);
 void set(HashMap* hashmap, char* key, int val);
-#endif;
+#endif
