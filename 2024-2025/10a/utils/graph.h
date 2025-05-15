@@ -6,7 +6,7 @@
 
 typedef struct Vertex {
     int val;
-    int weight;
+    double weight;
     struct Vertex* next;
 } Vertex;
 /*
@@ -17,12 +17,12 @@ typedef struct Graph {
     Vertex **adjList;
 } Graph;
 
-Vertex* init_vertex(int val, int weight);
+Vertex* init_vertex(int val, double weight);
 
 Graph* init_graph(int numVertices);
 
-void addEdgeDirectional(Graph*graph, int from, int to, int weight);
-void addEdge(Graph* graph, int from, int to, int weight);
+void addEdgeDirectional(Graph*graph, int from, int to, double weight);
+void addEdge(Graph* graph, int from, int to, double weight);
 
 void printGraph(Graph *graph);
 

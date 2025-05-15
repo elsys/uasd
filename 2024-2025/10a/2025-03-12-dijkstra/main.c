@@ -50,8 +50,8 @@ void dijkstra(Graph* g, int start) {
             int to = it->val;
             int w = it->weight;
 
-            if (dist[to] > w) {
-                updateKey(dist, to, w); // logV
+            if (dist[to] > dist[from] + w + h(to)) {
+                updateKey(dist, to, dist[from] + w + h(to)); // logV
                 parents[to] = from;
             }
 
@@ -65,6 +65,8 @@ void dijkstra(Graph* g, int start) {
     }
     printf("\n");
 }
+
+
 
 int main() {
     int n = 5;

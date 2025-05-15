@@ -20,13 +20,13 @@ Graph* init_graph(int numVertices) {
     return graph;
 }
 
-void addEdgeDirectional(Graph*graph, int from, int to, int weight) {
+void addEdgeDirectional(Graph*graph, int from, int to, double weight) {
     Vertex* new_vertex = init_vertex(to, weight);
     new_vertex->next = graph->adjList[from];
     graph->adjList[from] = new_vertex;
 }
 
-void addEdge(Graph* graph, int from, int to, int weight) {
+void addEdge(Graph* graph, int from, int to, double weight) {
     addEdgeDirectional(graph, from, to, weight);
     addEdgeDirectional(graph, to, from, weight);
 }

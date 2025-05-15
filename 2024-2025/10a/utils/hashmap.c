@@ -3,7 +3,7 @@
 #include "hashmap.h"
 #define HASHMAP_SIZE 16
 
-EntryNode* init_entry(char* key, int val) {
+EntryNode* init_entry(char* key, void* val) {
     EntryNode* entry = (EntryNode*)malloc(sizeof(EntryNode));
     entry->key = strdup(key);
     entry->val = val;
@@ -28,7 +28,7 @@ int hash(char* key) {
     return sum % HASHMAP_SIZE;
 }
 
-int get(HashMap* hashmap, char* key) {
+void* get(HashMap* hashmap, char* key) {
     int index = hash(key);
 
     EntryNode* it = hashmap->entries[index];
@@ -42,7 +42,7 @@ int get(HashMap* hashmap, char* key) {
     return -1;
 }
 
-void set(HashMap* hashmap, char* key, int val) {
+void set(HashMap* hashmap, char* key, void* val) {
     int index = hash(key);
 
     EntryNode* entry = init_entry(key, val);
