@@ -39,7 +39,7 @@ void* get(HashMap* hashmap, char* key) {
         it = it->next;
     }
 
-    return -1;
+    return NULL;
 }
 
 void set(HashMap* hashmap, char* key, void* val) {
@@ -59,4 +59,22 @@ void set(HashMap* hashmap, char* key, void* val) {
 
     entry->next = hashmap->entries[index];
     hashmap->entries[index] = entry;
+}
+
+void setInt(HashMap *hash_map, char *key, int val)
+{
+    int *val_ptr = (int *)malloc(sizeof(int));
+    *val_ptr = val;
+    set(hash_map, key, val_ptr);
+}
+
+int getInt(HashMap *hash_map, char *key)
+{
+    int *val_ptr = (int *)get(hash_map, key);
+    if (val_ptr == NULL)
+    {
+        return -1;
+    }
+
+    return *val_ptr;
 }
