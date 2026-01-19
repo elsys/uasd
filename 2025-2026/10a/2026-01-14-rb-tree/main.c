@@ -2,16 +2,19 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+enum Color {
+    RED,
+    BLACK
+} typedef Color;
+
+
 typedef struct Node {
     int val;
-    int color; // 0 - black, 1 = red
+    Color color;
     struct Node* left;
     struct Node* right;
     struct Node* parent;
 } Node;
-
-#define RED 1
-#define BLACK 0
 
 Node* init_node(int val) {
     Node* node = (Node*)malloc(sizeof(Node));
@@ -19,7 +22,7 @@ Node* init_node(int val) {
     node->left = NULL;
     node->right = NULL;
     node->parent = NULL;
-    node->color = 1;
+    node->color = RED;
 
     return node;
 }
@@ -52,7 +55,7 @@ void right_rotation(Node** root, Node* y) {
     x->parent = y->parent;
 
     if (y->parent == NULL) {
-        (*root) = y;
+        (*root) = x;
     } else if (y->parent->left == y) {
         y->parent->left = x;
     } else {
@@ -75,7 +78,7 @@ void left_rotation(Node** root, Node* x) {
     y->parent = x->parent;
 
     if (x->parent == NULL) {
-        (*root) = x;
+        (*root) = y;
     } else if (x->parent->left == x) {
         x->parent->left = y;
     } else {
@@ -88,11 +91,65 @@ void left_rotation(Node** root, Node* x) {
     }
 }
 
+//Имаше малко грешки свързани с NULL проверки понеже не ползваме sentinel
+// Също накрая бях написал RED вместо BLACK
+//Може да видите как е било пред и и след промените на къмит
+
+void RBFixUp(Node** root, Node* z) {
+    while (z->parent != NULL && z->parent->color == RED) {
+        Node* gp = z->parent->parent;
+
+        if (z->parent == gp->left) {
+            Node* uncle = gp->right;
+
+            if (uncle != NULL && uncle->color == RED) {
+                z->parent->color = BLACK;
+                uncle->color = BLACK;
+                gp->color = RED;
+
+                z = gp;
+            } else {
+                if (z == z->parent->right) {
+                    z = z->parent;
+                    left_rotation(root, z);
+                }
+                
+                gp->color = RED;
+                z->parent->color = BLACK;
+                right_rotation(root, gp);
+            }
+        } else {
+            Node* uncle = gp->left;
+
+            if (uncle != NULL && uncle->color == RED) {
+                z->parent->color = BLACK;
+                uncle->color = BLACK;
+                gp->color = RED;
+
+                z = gp;
+            } else {
+                if (z == z->parent->left) {
+                    z = z->parent;
+                    right_rotation(root, z);
+                }
+                
+                gp->color = RED;
+                z->parent->color = BLACK;
+                left_rotation(root, gp);
+            }
+        }
+    }
+
+    (*root)->color = BLACK;
+}
+
+
+
 // Red Black Tree
 void rb_insert(Node** root, int val) {
     // попълни
     Node* y = NULL;
-    Node* x = root;
+    Node* x = (*root);
 
     while(x != NULL) {
         y = x;
@@ -129,53 +186,6 @@ int find_bh(Node* root) {
     }
 
     return h;
-}
-
-void RBFixUp(Node** root, Node* z) {
-    while (z->parent->color == RED) {
-        Node* gp = z->parent->parent;
-        if (z->parent == gp->left) {
-            Node* uncle = gp->right;
-
-            if (uncle->color == RED) {
-                z->parent->color = BLACK;
-                uncle->color = BLACK;
-                gp->color = RED;
-
-                z = gp;
-            } else {
-                if (z == z->parent->right) {
-                    z = z->parent;
-                    left_rotation(root, z);
-                }
-                
-                gp->color = RED;
-                z->parent->color = BLACK;
-                right_rotation(root, gp);
-            }
-        } else {
-            Node* uncle = gp->left;
-
-            if (uncle->color == RED) {
-                z->parent->color = BLACK;
-                uncle->color = BLACK;
-                gp->color = RED;
-
-                z = gp;
-            } else {
-                if (z == z->parent->left) {
-                    z = z->parent;
-                    right_rotation(root, z);
-                }
-                
-                gp->color = RED;
-                z->parent->color = BLACK;
-                left_rotation(root, gp);
-            }
-        }
-    }
-
-    (*root)->color = RED;
 }
 
 
