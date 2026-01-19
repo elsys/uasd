@@ -93,7 +93,7 @@ void left_rotation(Node** root, Node* x) {
 
 //Имаше малко грешки свързани с NULL проверки понеже не ползваме sentinel
 // Също накрая бях написал RED вместо BLACK
-//Може да видите как е било пред и и след промените на къмит
+//Може да видите как е било пред и и след промените на къмит 077304de64d5a6e0317180a14bf5eb088d1c37cf
 
 void RBFixUp(Node** root, Node* z) {
     while (z->parent != NULL && z->parent->color == RED) {
