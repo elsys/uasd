@@ -10,6 +10,9 @@ typedef struct Node {
     struct Node* parent;
 } Node;
 
+#define RED 1
+#define BLACK 0
+
 Node* init_node(int val) {
     Node* node = (Node*)malloc(sizeof(Node));
     node->val = val;
@@ -31,14 +34,15 @@ void preorder(Node* root) {
     preorder(root->right);
 }
 
-/*                                        
+/* 
           y                                  x
         /  \        Right Rotation         /  \ 
        x   T3      - - - - - - - - - >    T1   y
      /   \           <- - - - - - - - -      /   \
     T1  T2         Left Rotation             T2  T3
 */
-Node* right_rotation(Node* y) {
+
+void right_rotation(Node** root, Node* y) {
     Node* x = y->left;
     Node* t2 = x->right;
 
@@ -46,15 +50,22 @@ Node* right_rotation(Node* y) {
     y->left = t2;
 
     x->parent = y->parent;
+
+    if (y->parent == NULL) {
+        (*root) = y;
+    } else if (y->parent->left == y) {
+        y->parent->left = x;
+    } else {
+        y->parent->right = x;
+    }
+
     y->parent = x;
     if (t2 != NULL) {
         t2->parent = y;
     }
-
-    return x;
 }
 
-Node* left_rotation(Node* x) {
+void left_rotation(Node** root, Node* x) {
     Node* y = x->right;
     Node* t2 = y->left;
 
@@ -62,32 +73,121 @@ Node* left_rotation(Node* x) {
     y->left = x;
 
     y->parent = x->parent;
+
+    if (x->parent == NULL) {
+        (*root) = x;
+    } else if (x->parent->left == x) {
+        x->parent->left = y;
+    } else {
+        x->parent->right = y;
+    }
+
     x->parent = y;
     if (t2 != NULL) {
         t2->parent = x;
     }
-
-    return y;
 }
 
 // Red Black Tree
-Node* rb_insert(Node* root, int val) {
+void rb_insert(Node** root, int val) {
     // попълни
+    Node* y = NULL;
+    Node* x = root;
 
+    while(x != NULL) {
+        y = x;
 
-    return root;
+        if (val < x->val) {
+            x = x->left;
+        } else {
+            x = x->right;
+        }
+    }
+
+    Node* z = init_node(val);
+    z->parent = y;
+    
+    if (*root == NULL) {
+        (*root) = z;
+    } else if (val < y->val) {
+        y->left = z;
+    } else {
+        y->right = z;
+    }
+
+    RBFixUp(root, z);
+}
+
+int find_bh(Node* root) {
+    Node *it = root;
+    int h = 0;
+    while (it != NULL) {
+        if(it->color == BLACK) {
+            h++;
+        }
+        it = it->right;
+    }
+
+    return h;
+}
+
+void RBFixUp(Node** root, Node* z) {
+    while (z->parent->color == RED) {
+        Node* gp = z->parent->parent;
+        if (z->parent == gp->left) {
+            Node* uncle = gp->right;
+
+            if (uncle->color == RED) {
+                z->parent->color = BLACK;
+                uncle->color = BLACK;
+                gp->color = RED;
+
+                z = gp;
+            } else {
+                if (z == z->parent->right) {
+                    z = z->parent;
+                    left_rotation(root, z);
+                }
+                
+                gp->color = RED;
+                z->parent->color = BLACK;
+                right_rotation(root, gp);
+            }
+        } else {
+            Node* uncle = gp->left;
+
+            if (uncle->color == RED) {
+                z->parent->color = BLACK;
+                uncle->color = BLACK;
+                gp->color = RED;
+
+                z = gp;
+            } else {
+                if (z == z->parent->left) {
+                    z = z->parent;
+                    right_rotation(root, z);
+                }
+                
+                gp->color = RED;
+                z->parent->color = BLACK;
+                left_rotation(root, gp);
+            }
+        }
+    }
+
+    (*root)->color = RED;
 }
 
 
 int main() {
-    Node* tree = init_node(0);
-    // bst_insert(tree, 1);
-    // bst_insert(tree, 2);
-    for(int i = 1; i < 16; i++) {
-        tree = bst_insert(tree, i);
-    }
+    Node* tree = NULL;
 
-    printf("H: %d\n", tree->height);
+    rb_insert(&tree, 5);
+
+    printf("%d\n", tree->val);
+    rb_insert(&tree, 6);
+    rb_insert(&tree, 7);
+
     preorder(tree);
 
 
