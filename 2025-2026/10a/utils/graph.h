@@ -3,6 +3,7 @@
 
 typedef struct EdgeNode {
     int val;
+    int weight;
     struct EdgeNode* next;
 } EdgeNode;
  
@@ -11,10 +12,10 @@ typedef struct Graph {
     EdgeNode** adjList;
 } Graph;
 
-EdgeNode* init_edgenode(int val);
+EdgeNode* init_edgenode(int val, int weight);
 Graph* init_graph(int numVertices);
-void addEdgeDirectional(Graph* g, int start, int end);
-void addEdge(Graph* g, int start, int end);
+void addEdgeDirectional(Graph* g, int start, int end, int weight);
+void addEdge(Graph* g, int start, int end, int weight);
 void printGraph(Graph* g);
 
 #endif

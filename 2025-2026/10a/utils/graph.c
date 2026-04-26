@@ -2,9 +2,10 @@
 #include <stdlib.h>
 #include "graph.h"
 
-EdgeNode* init_edgenode(int val) {
+EdgeNode* init_edgenode(int val, int weight) {
     EdgeNode* node = (EdgeNode*)malloc(sizeof(EdgeNode));
     node->val = val;
+    node->weight = weight;
     node->next = NULL;
  
     return node;
@@ -22,16 +23,16 @@ Graph* init_graph(int numVertices) {
     return g;
 }
  
-void addEdgeDirectional(Graph* g, int start, int end) {
-    EdgeNode* new_node = init_edgenode(end);
+void addEdgeDirectional(Graph* g, int start, int end, int weight) {
+    EdgeNode* new_node = init_edgenode(end, weight);
  
     new_node->next = g->adjList[start];
     g->adjList[start] = new_node;
 }
  
-void addEdge(Graph* g, int start, int end) {
-    addEdgeDirectional(g, start, end);
-    addEdgeDirectional(g, end, start);
+void addEdge(Graph* g, int start, int end, int weight) {
+    addEdgeDirectional(g, start, end, weight);
+    addEdgeDirectional(g, end, start, weight);
 }
  
 // O(V + E)
@@ -40,7 +41,7 @@ void printGraph(Graph* g) {
         printf("%d: ", i);
         EdgeNode* it = g->adjList[i];
         while(it != NULL) {
-            printf("%d, ", it->val);
+            printf("%d(%d), ", it->val, it->weight);
             it = it->next;
         }
  
