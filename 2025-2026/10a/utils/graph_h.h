@@ -3,7 +3,7 @@
 #include "hashmap.h"
 
 typedef struct EdgeNode {
-    int val;
+    char* val;
     int weight;
     struct EdgeNode* next;
 } EdgeNode;
@@ -17,5 +17,5 @@ Graph* init_graph();
 void addEdgeDirectional(Graph* g, char* start, char* end, int weight);
 void addEdge(Graph* g, char* start, char* end, int weight);
 void printGraph(Graph* g);
-
+char* charToString(int val);
 #endif

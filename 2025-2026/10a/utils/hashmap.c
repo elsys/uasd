@@ -5,7 +5,7 @@
  
 HashMap* init_hashmap() {
     HashMap* map = (HashMap*)malloc(sizeof(HashMap));
-    map->arr = (EntryNode**)malloc(sizeof(EntryNode)*HASH_MAP_SIZE);
+    map->arr = (EntryNode**)malloc(sizeof(EntryNode*)*HASH_MAP_SIZE);
     for (int i = 0; i < HASH_MAP_SIZE; i++) {
         map->arr[i] = NULL;
     }

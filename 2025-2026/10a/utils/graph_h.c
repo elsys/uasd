@@ -3,7 +3,7 @@
 #include "graph_h.h"
 #include "hashmap.h"
 
-EdgeNode* init_edgenode(int val, int weight) {
+EdgeNode* init_edgenode(char* val, int weight) {
     EdgeNode* node = (EdgeNode*)malloc(sizeof(EdgeNode));
     node->val = val;
     node->weight = weight;
@@ -21,13 +21,14 @@ Graph* init_graph() {
  
 void addEdgeDirectional(Graph* g, char* start, char* end, int weight) {
     EdgeNode* new_node = init_edgenode(end, weight);
- 
-    EntryNode* entry = get(g->adjList, start);
-    if (entry == NULL) {
+
+    EdgeNode* head = (EdgeNode*)get(g->adjList, start);
+
+    if (head == NULL) {
         set(g->adjList, start, new_node);
     } else {
-        new_node->next = (EdgeNode*)entry->val;
-        entry->val = new_node;  
+        new_node->next = head;
+        set(g->adjList, start, new_node);
     }
 }
  
@@ -52,4 +53,9 @@ void printGraph(Graph* g) {
             entry = entry->next;
         }
     }
+}
+char* charToString(int val) {
+    char* str = (char*)malloc(12 * sizeof(char)); // Enough to hold an integer
+    sprintf(str, "%d", val);
+    return str;
 }

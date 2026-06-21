@@ -34,7 +34,8 @@ void addEdge(Graph* g, int start, int end, int weight) {
     addEdgeDirectional(g, start, end, weight);
     addEdgeDirectional(g, end, start, weight);
 }
- 
+
+
 // O(V + E)
 void printGraph(Graph* g) {
     for (int i = 0; i < g->numVertices; i++) {
